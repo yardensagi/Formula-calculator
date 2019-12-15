@@ -1,0 +1,38 @@
+<div class="row">
+    <div class="col">
+        <input matInput type="search" [(ngModel)]="searchText" placeholder="Search product">
+    </div>
+</div>
+
+<mat-accordion>
+    <mat-expansion-panel *ngFor="let product of products| filter: searchText">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{product.name}}
+        </mat-panel-title>
+      </mat-expansion-panel-header>  
+
+<mat-list>
+    <mat-list-item *ngFor="let ing of product.ingredients ">
+        <p matLine> Name: {{ing.name}} ({{ing.type | lowercase}}) </p>
+        <p matLine> Quantity in kilograms: {{ing.mass}} </p>
+    </mat-list-item>
+    <mat-list-item>
+            <p matLine class="font-weight-bold">             
+                Instructions:
+                </p>
+    </mat-list-item>
+    <mat-list-item>
+            {{product.instructions}} 
+    </mat-list-item>
+    <mat-list-item>
+        <div class="btn-group">
+                <button mat-button (click)="update(product)">Edit</button>
+                <button mat-button (click)="delete(product)">Delete</button>
+        </div>
+    </mat-list-item>
+</mat-list>
+          
+     
+    </mat-expansion-panel>
+  </mat-accordion>
