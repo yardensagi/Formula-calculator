@@ -40,9 +40,9 @@
                 <input matInput [(ngModel)]="dynamicArray[i].quantity" class="form-control" (ngModelChange)="makeChanges()" type="number" />    
               </td>    
               <td>    
-                <select (ngModelChange)="makeChanges()" (change)="dynamicArray[i].type = $event.target.value " #s>
-                  <option  *ngFor="let item of types" #t>
-                    {{item}}
+                <select (ngModelChange)="makeChanges()" [value]='dynamicArray[i].type' (change)="dynamicArray[i].type = $event.target.value " #s>
+                  <option   *ngFor="let item of types" #t>
+                    {{item }}
                   </option>
                 </select>  
                 <div *ngIf="dynamicArray[i].type ==='Liquid'">
