@@ -22,7 +22,7 @@ export class UpdateProductComponent implements OnInit {
           this.totalMass = this.product.mass;
           this.totalPrice = this.product.price;
           this.product.ingredients.forEach(ing => {
-            this.newDynamic = {ingredientId: ing.ingredientId, name: ing.name, price: ing.price, 
+            this.newDynamic = {ingredientId: ing.ingredientId, name: ing.name, price: ing.price,
               quantity: ing.quantity, type: ing.type,
             specificGravity: ing.specificGravity, massPercentage: ing.massPercentage, mass: ing.mass };
             this.dynamicArray.push(this.newDynamic);
@@ -95,13 +95,17 @@ export class UpdateProductComponent implements OnInit {
 
     submit() {
       this.product.ingredients = this.dynamicArray;
-      if(this.productService.update(this.product)){
+      if (this.productService.update(this.product)){
         this.toastr.success('Product updated successfully');
         this.product = this.productService.currentProduct;
       }
     }
-
+    print(el) {
+      console.log(el);
+      printContent(el);
+    }
 }
-function delay(ms: number) {
-  return new Promise( resolve => setTimeout(resolve, ms) );
+function printContent(el) {
+
+  window.print();
 }

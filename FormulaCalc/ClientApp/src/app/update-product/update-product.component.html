@@ -1,5 +1,5 @@
 
-<div class="container" style="margin-top: 5%">    
+<div class="container" style="margin-top: 5%" id="divToPrint">    
     <div class="row">
             <div class="col-md-3" class="font-weight-bold">
                 Product name: {{product.name}}
@@ -85,12 +85,14 @@
         </tr>
     </tfoot>
 </table>    
+</div>
+<div class="container control-group">
+  <div class="row">
+    <div class="col">
+      <textarea  rows="3" cols="55" placeholder="Please write the instructions for this formula here" [(ngModel)]="product.instructions"></textarea>
+    </div>
+  </div>
+  <button mat-button class="btn btn-success" (click)="submit()">Save product</button>
 
-<div class="row">
-        <div class="col">
-          <textarea  rows="3" cols="55" placeholder="Please write the instructions for this formula here" [(ngModel)]="product.instructions"></textarea>
-        </div>
-      </div>
-
-<button mat-button class="btn btn-success" (click)="submit()">Save product</button>
+<button mat-button class="btn btn-success" (click)="print('divToPrint')">Print</button>
 </div>    
