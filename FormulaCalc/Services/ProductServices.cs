@@ -13,7 +13,7 @@ namespace FormulaCalc.Services
     public interface IProductServices
     {
        IEnumerable<Product> GetAll();
-       Product GetByName(string name);
+       Product GetByName(string id);
        Product Create(Product product);
         Product Update(Product product);
        bool Delete(int name);
@@ -40,12 +40,11 @@ namespace FormulaCalc.Services
             return product;
         }
        
-       public bool Delete(int name)
+       public bool Delete(int id)
        {
-           var product = _context.Products.Find(name);
+           var product = _context.Products.Include(ing => ing.Ingredients).ToList().FirstOrDefault(x => x.ProductID == id);
            if (product != null)
            {
-               var productIng = GetProductIngredients(product.ProductID);
                DeleteIngredientsFromProduct(product.ProductID);
                _context.Products.Remove(product);
                _context.SaveChanges();
@@ -56,14 +55,7 @@ namespace FormulaCalc.Services
     
        public IEnumerable<Product> GetAll()
        {
-           var products = _context.Products;
-           if (products != null)
-           {
-               foreach (var product in products)
-               {
-                   product.Ingredients = GetProductIngredients(product.ProductID);
-               }
-           }
+           var products = _context.Products.Include(ing => ing.Ingredients).ToList();
            return products;
        }
 
@@ -134,12 +126,14 @@ namespace FormulaCalc.Services
             return myProduct;
         }
 
-       private List<Ingredient> GetProductIngredients(int productId)
+       private List<Ingredient> GetProductIngredients( int productId)
        {
            var product = _context.Products.Find(productId);
-           List<Ingredient> ingredients = _context.Ingredients.Include(ing => ing.Product).Where(res => res.ProductID == product.ProductID).ToList();
+           List<Ingredient> ingredients = 
+                _context.Ingredients.Include(ing => ing.Product)
+                        .Where(res => res.ProductID == product.ProductID).ToList();
 
-           return ingredients;
+            return ingredients;
        }
      
         private void DeleteIngredientsFromProduct(int productId)
